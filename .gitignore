@@ -6,10 +6,10 @@ frontend/node_modules/
 frontend/dist/
 frontend/.vite/
 
-# Environment variables
+# Environment variables (local only - keep secrets out of git)
 .env
 .env.local
-.env.production
+# .env.production is committed intentionally (contains only public Railway URL)
 
 # Logs
 *.log

@@ -5,7 +5,8 @@ import './App.css';
 
 // We initialize socket outside component to prevent multiple connections on re-render.
 // In a real app we might put this in a Context.
-const socket = io('http://localhost:3001');
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001';
+const socket = io(BACKEND_URL);
 
 function App() {
   const [gameState, setGameState] = useState({
@@ -240,7 +241,7 @@ function LobbyView({ socket, room, user }) {
   const [dictionary, setDictionary] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:3001/dictionary")
+    fetch(`${BACKEND_URL}/dictionary`)
       .then(r => r.json())
       .then(setDictionary)
       .catch(() => { }); // fail silently
