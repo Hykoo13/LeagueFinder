@@ -454,23 +454,12 @@ io.on("connection", (socket) => {
         }
         io.to(roomId).emit("room_update", room);
       } else {
-        // Stop the running timer
+        // Stop the running timer first, then startNextTurn handles the rest
         if (roomTimers.has(roomId)) {
           clearInterval(roomTimers.get(roomId));
           roomTimers.delete(roomId);
         }
-        // Rotate to the next speaker
-        let nextSpeaker = room.players[0];
-        const lastSpeakerIndex = room.players.findIndex(p => p.id === room.gameState.currentSpeakerId);
-        if (lastSpeakerIndex !== -1 && lastSpeakerIndex + 1 < room.players.length) {
-          nextSpeaker = room.players[lastSpeakerIndex + 1];
-        }
-        room.gameState.currentSpeakerId = nextSpeaker.id;
-        room.gameState.turnActive = false;
-        room.gameState.clues = [];
-        room.gameState.guesses = [];
-        room.gameState.subTurn = "CLUE";
-        io.to(roomId).emit("turn_ended", room);
+        startNextTurn(roomId);
       }
     }
   });
