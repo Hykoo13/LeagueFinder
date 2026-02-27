@@ -18,7 +18,8 @@ body {
   margin: 0;
   font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
   color: var(--text-color);
-  background: linear-gradient(135deg, #0f172a 5%, #05080f 95%); /* softer, subtle dark gradient */
+  background: linear-gradient(135deg, #0f172a 5%, #05080f 95%);
+  overflow-x: hidden;
 }
 
 
