@@ -496,11 +496,13 @@ function GameView({ socket, room, user }) {
         ) : (
           <div className="turn-active">
             {isSpeaker ? (
-              <div className="speaker-view">
-                <p className="instruction">Faites deviner ce mot :</p>
-                <h1 className="word-to-guess">{gs.currentWord}</h1>
+              <div className="speaker-view" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "24px", maxWidth: "560px", margin: "0 auto" }}>
+                <div style={{ textAlign: "center" }}>
+                  <p className="instruction" style={{ marginBottom: "10px" }}>Faites deviner ce mot :</p>
+                  <h1 className="word-to-guess">{gs.currentWord}</h1>
+                </div>
 
-                <form onSubmit={submitClue} className="guess-form" style={{ marginTop: "20px" }}>
+                <form onSubmit={submitClue} className="guess-form" style={{ width: "100%" }}>
                   <div className="input-group">
                     <input
                       ref={clueInputRef}
@@ -515,14 +517,15 @@ function GameView({ socket, room, user }) {
                     </button>
                   </div>
                   {gs.subTurn === "CLUE" ? (
-                    <p className="text-muted" style={{ fontSize: "0.8rem" }}>Ne doit pas trop ressembler au mot.</p>
+                    <p className="text-muted" style={{ fontSize: "0.8rem", marginTop: "6px", textAlign: "center" }}>Ne doit pas trop ressembler au mot.</p>
                   ) : (
-                    <p style={{ color: "var(--warning)", fontSize: "0.9rem", fontWeight: "bold" }}>Attendez qu'ils devinent !</p>
+                    <p style={{ color: "var(--warning)", fontSize: "0.9rem", fontWeight: "bold", marginTop: "6px", textAlign: "center" }}>Attendez qu'ils devinent !</p>
                   )}
                 </form>
+
                 {gs.clues && gs.clues.length > 0 && (
-                  <div className="history-list card" style={{ marginTop: "20px", padding: "15px", background: "rgba(0,0,0,0.2)" }}>
-                    <h4 style={{ marginBottom: "15px", textAlign: "center" }}>Historique du tour :</h4>
+                  <div className="history-list card" style={{ width: "100%", padding: "16px 20px", background: "rgba(0,0,0,0.2)" }}>
+                    <h4 style={{ margin: "0 0 12px 0", textAlign: "center" }}>Historique du tour :</h4>
                     <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                       {gs.clues.map((clue, idx) => (
                         <div key={idx} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "15px" }}>
@@ -539,9 +542,7 @@ function GameView({ socket, room, user }) {
                   </div>
                 )}
 
-                <div style={{ marginTop: "30px", display: "flex", gap: "10px", justifyContent: "center" }}>
-                  <button className="btn-primary" onClick={speakerSkip}>Passer le mot</button>
-                </div>
+                <button className="btn-primary" onClick={speakerSkip}>Passer le mot</button>
               </div>
             ) : (
               <div className="guesser-view">
