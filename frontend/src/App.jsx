@@ -1,7 +1,58 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import io from 'socket.io-client';
 import { useGameSocket } from './useGameSocket';
 import './App.css';
+
+// Randomly placed poros in the background
+// Randomly placed poros with minimum spacing
+function generatePoros(count, minDist = 18) {
+  const placed = [];
+  let attempts = 0;
+  while (placed.length < count && attempts < count * 50) {
+    attempts++;
+    const topN = Math.random() * 88;
+    const leftN = Math.random() * 90;
+    const tooClose = placed.some(p =>
+      Math.hypot(p.topN - topN, p.leftN - leftN) < minDist
+    );
+    if (!tooClose) {
+      placed.push({
+        id: placed.length,
+        topN, leftN,
+        top: `${topN.toFixed(1)}%`,
+        left: `${leftN.toFixed(1)}%`,
+        rotate: Math.floor(Math.random() * 360),
+        size: 55 + Math.floor(Math.random() * 50),
+        opacity: 0.06 + Math.random() * 0.08,
+      });
+    }
+  }
+  return placed;
+}
+const POROS = generatePoros(20);
+
+function PoroBg() {
+  return (
+    <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0, overflow: 'hidden' }}>
+      {POROS.map(p => (
+        <img
+          key={p.id}
+          src="/poro.png"
+          alt=""
+          style={{
+            position: 'absolute',
+            top: p.top,
+            left: p.left,
+            width: p.size,
+            opacity: p.opacity,
+            transform: `rotate(${p.rotate}deg)`,
+            userSelect: 'none',
+          }}
+        />
+      ))}
+    </div>
+  );
+}
 
 // We initialize socket outside component to prevent multiple connections on re-render.
 // In a real app we might put this in a Context.
@@ -66,6 +117,7 @@ function App() {
 
   return (
     <div className="App">
+      <PoroBg />
       <div className="toast-container">
         {notifications.map(n => (
           <div key={n.id} className="toast">

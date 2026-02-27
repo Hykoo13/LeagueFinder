@@ -21,18 +21,7 @@ body {
   background: linear-gradient(135deg, #0f172a 5%, #05080f 95%); /* softer, subtle dark gradient */
 }
 
-/* Poro background decoration */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url('/poro.png');
-  background-size: 100px;
-  background-repeat: repeat;
-  opacity: 0.06;
-  pointer-events: none;
-  z-index: 0;
-}
+
 
 .App {
   width: 100%;
